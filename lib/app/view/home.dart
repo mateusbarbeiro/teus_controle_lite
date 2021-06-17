@@ -1,48 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:teus_controle_lite/app/my_app.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class Home extends StatelessWidget {
+  const Home({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Teus Controle')
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.red[800],
+              ),
+              child: Text(
+                'Teus Controle',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Perfil'),
+              onTap: () {
+                Navigator.of(context).pushNamed(MyApp.PROFILE);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.shopping_basket),
+              title: Text('Produtos'),
+              onTap: () {
+                Navigator.of(context).pushNamed(MyApp.PRODUCTS);
+              },
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      body: ListView(),
     );
   }
 }
