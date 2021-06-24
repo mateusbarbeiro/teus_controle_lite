@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:teus_controle_lite/app/my_app.dart';
 
-class Home extends StatelessWidget {
+class VHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
