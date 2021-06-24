@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:teus_controle_lite/app/my_app.dart';
 
 class Home extends StatelessWidget {
-  const Home({ Key? key }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
