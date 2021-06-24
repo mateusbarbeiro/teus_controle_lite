@@ -1,4 +1,4 @@
-class Product {
+class ProductDto {
   int? id;
   String gtin;
   String description;
@@ -15,7 +15,7 @@ class Product {
   bool? deleted;
   DateTime? createdDate;
 
-  Product({
+  ProductDto({
     this.id,
     required this.gtin,
     required this.description,
@@ -28,12 +28,5 @@ class Product {
     required this.ncmFullDescription,
     required this.thumbnail,
     required this.inStock,
-    active,
-    deleted,
-    createdDate
-  }) {
-    this.active = active == 1;
-    this.deleted = deleted == 1;
-    this.createdDate = DateTime.tryParse(createdDate);
-  }
+  });
 }

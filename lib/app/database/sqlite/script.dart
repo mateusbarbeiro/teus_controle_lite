@@ -1,6 +1,6 @@
 final createTable = '''
   CREATE TABLE products(
-    id INT PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     gtin VARCHAR(25) NOT NULL,
     description VARCHAR(200) NOT NULL,
     price DECIMAL(10,2),
