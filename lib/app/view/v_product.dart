@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teus_controle_lite/app/database/sqlite/product_dao.dart';
 import 'package:teus_controle_lite/app/domain/dto/product_dto.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
+import 'package:teus_controle_lite/app/domain/services/product_service.dart';
 
 class VProduct extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _VProductState extends State<VProduct> {
               actions: [
                 IconButton(
                   onPressed: () {
-                    ProductDao().save(
+                    ProductService().save(
                       ProductDto(
                         gtin: '7896544900264',
                         description: 'FITA MISSNER BEGE MICROPORE 2,5X4,5 BEGE',
@@ -57,9 +58,9 @@ class _VProductState extends State<VProduct> {
                       clipBehavior: Clip.antiAlias,
                       child: Column(
                         children: [
-                          Image.network(product.thumbnail, height: 250),
+                          Image.network(product.thumbnail ?? "", height: 250),
                           ListTile(
-                            title: Text( "R\$" + product.price.toStringAsFixed(2), style: TextStyle(fontSize: 25)),
+                            title: Text( "R\$" + product.price!.toStringAsFixed(2), style: TextStyle(fontSize: 25)),
                             subtitle: Text(
                               product.description,
                               style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: 17),
