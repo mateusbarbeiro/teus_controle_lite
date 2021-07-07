@@ -3,8 +3,9 @@ import 'package:teus_controle_lite/app/domain/dto/product_dto.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 import 'package:teus_controle_lite/app/domain/exceptions/business_exception.dart';
 import 'package:teus_controle_lite/app/domain/interfaces/i_product_dao.dart';
+import 'package:teus_controle_lite/app/domain/interfaces/i_product_service.dart';
 
-class ProductService {
+class ProductService implements IProductService {
   var _dao = GetIt.I.get<IProductDAO>();
 
   save(ProductDto product) {
