@@ -7,4 +7,6 @@ abstract class IProductService {
   remove(int id);
 
   Future<List<Product>> find();
+
+  undoRemove(int id);
 }
