@@ -44,4 +44,9 @@ abstract class _ProductStore with Store {
     _service.remove(id);
     refreshList();
   }
+
+  undoRemove(int id) {
+    _service.undoRemove(id);
+    refreshList();
+  }
 }

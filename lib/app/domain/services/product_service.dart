@@ -19,6 +19,10 @@ class ProductService implements IProductService {
     _dao.delete(id);
   }
 
+  undoRemove(int id) {
+    _dao.undelete(id);
+  }
+
   Future<List<Product>> find() {
     return _dao.find();
   }
