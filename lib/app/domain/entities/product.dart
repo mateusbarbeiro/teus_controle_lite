@@ -1,7 +1,7 @@
 class Product {
   int? id;
-  String gtin;
-  String description;
+  String? gtin;
+  String? description;
   double? price;
   String? brandName;
   String? gpcCode;
@@ -10,15 +10,15 @@ class Product {
   String? ncmDescription;
   String? ncmFullDescription;
   String? thumbnail;
-  int inStock;
+  int? inStock;
   bool? active;
   bool? deleted;
   DateTime? createdDate;
 
   Product({
     this.id,
-    required this.gtin, // Global Trade Item Number
-    required this.description,
+    this.gtin, // Global Trade Item Number
+    this.description,
     this.price,
     this.brandName,
     this.gpcCode,
@@ -27,7 +27,7 @@ class Product {
     this.ncmDescription,
     this.ncmFullDescription,
     this.thumbnail,
-    required this.inStock,
+    this.inStock,
     active,
     deleted,
     createdDate

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         HOME: (context) => VHome(),
         PRODUCTS: (context) => VProduct(),
-        PRODUCTSFORM: (context) => ProductForm(),
+        PRODUCTSFORM: (context) => VProductForm(),
         PROFILE: (context) => VProfile()
       },
     );
