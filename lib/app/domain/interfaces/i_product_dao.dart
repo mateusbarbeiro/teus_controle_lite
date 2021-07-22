@@ -2,7 +2,7 @@ import 'package:teus_controle_lite/app/domain/dto/product_dto.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 
 abstract class IProductDAO {
-  save(ProductDto product);
+  save(Product product);
 
   delete(int id);
 

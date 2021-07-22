@@ -49,7 +49,7 @@ class ProductDao implements IProductDAO {
   }
   
   @override
-  save(ProductDto product) async {
+  save(Product product) async {
     _db = await Connection.get();
     var sql;
     if (product.id == null) {

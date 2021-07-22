@@ -5,7 +5,6 @@ import 'package:teus_controle_lite/app/animation/slow_material_page_route.dart';
 import 'package:teus_controle_lite/app/domain/dto/product_dto.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 import 'package:teus_controle_lite/app/domain/interfaces/i_product_service.dart';
-import 'package:teus_controle_lite/app/my_app.dart';
 
 import '../v_product_form.dart';
 
@@ -29,7 +28,7 @@ abstract class _ProductStore with Store {
     refreshList();
   }
 
-  save(ProductDto product) {
+  save(Product product) {
     _service.save(product);
 
     refreshList();
@@ -45,7 +44,8 @@ abstract class _ProductStore with Store {
           },
           fullscreenDialog: true,
         )
-      );
+      )
+      .then(refreshList);
     } else {
       Navigator.push(
         context,
@@ -58,7 +58,8 @@ abstract class _ProductStore with Store {
             arguments: product
           )
         )
-      );
+      )
+      .then(refreshList);
     }
   }
 

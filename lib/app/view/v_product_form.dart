@@ -13,6 +13,8 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Código de barras',
       ),
+      validator: store.validateGtin,
+      onSaved: (newValue) => store.product?.gtin = newValue
     );
   }
 
@@ -22,6 +24,8 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Descrição',
       ),
+      validator: store.validateDescription,
+      onSaved: (newValue) => store.product?.description = newValue,
     );
   }
 
@@ -32,6 +36,7 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Preço',
       ),
+      onSaved: (newValue) => store.product?.price = double.parse(newValue!)
     );
   }
 
@@ -41,6 +46,7 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Marca',
       ),
+      onSaved: (newValue) => store.product?.brandName = newValue
     );
   }
 
@@ -51,6 +57,7 @@ class VProductForm extends StatelessWidget {
         labelText: 'Codigo da GPC',
         hintText: 'Codigo da Classificação do Produto'
       ),
+      onSaved: (newValue) => store.product?.gpcCode = newValue
     );
   }
 
@@ -61,6 +68,7 @@ class VProductForm extends StatelessWidget {
         labelText: 'Descrição da GPC',
         hintText: 'Descrição da Classificação do Produto'
       ),
+      onSaved: (newValue) => store.product?.gpcDescription = newValue
     );
   }
 
@@ -71,6 +79,7 @@ class VProductForm extends StatelessWidget {
         labelText: 'Código da NCM',
         hintText: 'Código da Nomenclatura Comum do Mercosul '
       ),
+      onSaved: (newValue) => store.product?.ncmCode = newValue
     );
   }
 
@@ -81,6 +90,7 @@ class VProductForm extends StatelessWidget {
         labelText: 'Descrição da NCM',
         hintText: 'Descrição da Nomenclatura Comum do Mercosul'
       ),
+      onSaved: (newValue) => store.product?.ncmDescription = newValue
     );
   }
 
@@ -91,6 +101,7 @@ class VProductForm extends StatelessWidget {
         labelText: 'Descrição completa da NCM',
         hintText: 'Descrição completa da Nomenclatura Comum do Mercosul'
       ),
+      onSaved: (newValue) => store.product?.ncmFullDescription = newValue
     );
   }
 
@@ -100,6 +111,7 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Imagem do Produto (URL)',
       ),
+      onSaved: (newValue) => store.product?.thumbnail = newValue
     );
   }
 
@@ -110,6 +122,8 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Quantidade em Estoque',
       ),
+      validator: store.validateStock,
+      onSaved: (newValue) => store.product?.inStock = int.parse(newValue!),
     );
   }
 
@@ -138,6 +152,7 @@ class VProductForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<FormState> _form = GlobalKey<FormState>();
     var _store = ProductFormStore(context);
     return Hero(
       tag: "card${_store.product?.id ?? UniqueKey()}",
@@ -152,6 +167,19 @@ class VProductForm extends StatelessWidget {
               snap: false,
               elevation: 0.0,
               backgroundColor: Colors.transparent,
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.save),
+                  onPressed: () {
+                    _form.currentState?.validate();
+                    _form.currentState?.save();
+                    if (_store.isValid) {
+                      _store.save();
+                      Navigator.of(context).pop();
+                    }
+                  },
+                )
+              ],
               flexibleSpace: BackgroundFlexibleSpaceBar(
                 centerTitle: false,
                 titlePadding: const EdgeInsets.only(
@@ -190,6 +218,7 @@ class VProductForm extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: SingleChildScrollView (
               child: Form(
+                key: _form,
                 child: Column(
                   mainAxisSize : MainAxisSize.min,
                   children: [

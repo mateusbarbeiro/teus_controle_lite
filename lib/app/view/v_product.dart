@@ -2,11 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:teus_controle_lite/app/animation/slow_material_page_route.dart';
-import 'package:teus_controle_lite/app/domain/dto/product_dto.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 import 'package:teus_controle_lite/app/view/stores/product_store.dart';
-import 'package:teus_controle_lite/app/view/v_product_form.dart';
 
 class VProduct extends StatelessWidget {
   final _store = ProductStore();
@@ -23,21 +20,6 @@ class VProduct extends StatelessWidget {
     return IconButton(
       onPressed: () {
         _store.goToForm(context);
-        // _store.save(
-        //   ProductDto(
-        //     gtin: '7896544900264',
-        //     description: 'FITA MISSNER BEGE MICROPORE 2,5X4,5 BEGE',
-        //     price: 4.99,
-        //     brandName: 'MISSNER',
-        //     gpcCode: '',
-        //     gpcDescription: '',
-        //     ncmCode: '30051090',
-        //     ncmDescription: 'Outros',
-        //     ncmFullDescription: 'Produtos farmacêuticos - Pastas (“ouates”), gazes, ataduras e artigos análogos (por exemplo, pensos, esparadrapos, sinapismos), impregnados ou recobertos de substâncias farmacêuticas ou acondicionados para venda a retalho para usos medicinais, cirúrgicos, dentários ou veterinários - Pensos adesivos e outros artigos com uma camada adesiva - Outros',
-        //     thumbnail: 'https://cdn-cosmos.bluesoft.com.br/products/7896544900264',
-        //     inStock: 5
-        //   )
-        // );
       },
       icon: Icon(Icons.add)
     );  
