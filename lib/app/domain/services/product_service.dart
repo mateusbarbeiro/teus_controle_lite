@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:teus_controle_lite/app/domain/dto/product_dto.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 import 'package:teus_controle_lite/app/domain/exceptions/business_exception.dart';
 import 'package:teus_controle_lite/app/domain/interfaces/i_product_dao.dart';

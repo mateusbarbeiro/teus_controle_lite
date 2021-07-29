@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:teus_controle_lite/app/domain/dto/product_dto.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 import 'package:teus_controle_lite/app/domain/interfaces/i_product_service.dart';
 
@@ -21,9 +20,7 @@ abstract class _ProductFormStore with Store {
 
   _ProductFormStore(BuildContext context) {
     var parameter = ModalRoute.of(context)!.settings.arguments;
-    if (parameter != null) {
-      this.product = parameter as Product;
-    }
+    product = (parameter == null) ? Product() : (parameter) as Product?;
   }
 
   save() async {

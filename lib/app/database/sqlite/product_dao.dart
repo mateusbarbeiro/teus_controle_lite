@@ -1,5 +1,4 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:teus_controle_lite/app/domain/dto/product_dto.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 import 'package:teus_controle_lite/app/domain/interfaces/i_product_dao.dart';
 
@@ -32,7 +31,7 @@ class ProductDao implements IProductDAO {
         id: line['id'],
         gtin: line['gtin'],
         description: line['description'],
-        price: line['price'],
+        price: line['price']+0.0,
         brandName: line['brand_name'],
         gpcCode: line['gpc_code'],
         gpcDescription: line['gpc_description'],
@@ -43,7 +42,7 @@ class ProductDao implements IProductDAO {
         inStock: line['in_stock'],
         active: line['active'], 
         deleted: line['deleted'],
-        createdDate: line['created_date']
+        // createdDate: line['created_date']
         );
     });
   }

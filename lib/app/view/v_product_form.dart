@@ -2,10 +2,11 @@ import 'dart:ui';
 
 import 'package:background_app_bar/background_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:teus_controle_lite/app/view/stores/product_form_store.dart';
 
 class VProductForm extends StatelessWidget {
+  final _form = GlobalKey<FormState>();
+
   Widget fieldGtin(ProductFormStore store) {
     return TextFormField(
       initialValue: store.product?.gtin ?? "",
@@ -127,18 +128,6 @@ class VProductForm extends StatelessWidget {
     );
   }
 
-  Widget fieldCreatedDate(ProductFormStore store) {
-    DateFormat formatter = DateFormat('dd-MM-yyyy');
-    return TextFormField(
-      initialValue: formatter.format(store.product?.createdDate ?? DateTime.now()),
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: 'Data de Criação',
-      ),
-      enabled: false
-    );
-  }
-
   ImageProvider<Object> handleProductImage(ProductFormStore store) {
     if (
       store.product?.thumbnail == null ||
@@ -152,7 +141,6 @@ class VProductForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> _form = GlobalKey<FormState>();
     var _store = ProductFormStore(context);
     return Hero(
       tag: "card${_store.product?.id ?? UniqueKey()}",
@@ -160,6 +148,7 @@ class VProductForm extends StatelessWidget {
         body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
             SliverAppBar(
+              key: Key(_store.product?.id.toString() ?? UniqueKey().toString()),
               shadowColor: Colors.black,
               expandedHeight: 250.0,
               floating: false,
@@ -174,8 +163,21 @@ class VProductForm extends StatelessWidget {
                     _form.currentState?.validate();
                     _form.currentState?.save();
                     if (_store.isValid) {
-                      _store.save();
-                      Navigator.of(context).pop();
+                      try {
+                        _store.save();
+                        Navigator.pop(context);
+                      } catch (e) {
+                        SnackBar(
+                          content: Text(
+                            'Erro $e!',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold
+                            ),
+                          )
+                        );
+                      }
                     }
                   },
                 )
@@ -232,8 +234,7 @@ class VProductForm extends StatelessWidget {
                     fieldNcmDescription(_store),
                     fieldNcmFullDescription(_store),
                     fieldThumbnail(_store),
-                    fieldInStock(_store),
-                    fieldCreatedDate(_store)
+                    fieldInStock(_store)
                   ],
                 )
               )

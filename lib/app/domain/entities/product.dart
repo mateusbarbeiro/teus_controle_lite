@@ -1,19 +1,19 @@
 class Product {
   int? id;
-  String? gtin;
-  String? description;
-  double? price;
-  String? brandName;
-  String? gpcCode;
-  String? gpcDescription;
-  String? ncmCode;
-  String? ncmDescription;
-  String? ncmFullDescription;
-  String? thumbnail;
-  int? inStock;
-  bool? active;
-  bool? deleted;
-  DateTime? createdDate;
+  String? gtin = "";
+  String? description = "";
+  double? price = 0;
+  String? brandName = "";
+  String? gpcCode = "";
+  String? gpcDescription = "";
+  String? ncmCode = "";
+  String? ncmDescription = "";
+  String? ncmFullDescription = "";
+  String? thumbnail = "";
+  int? inStock = 1;
+  bool? active = true;
+  bool? deleted = false;
+  // DateTime? createdDate = DateTime.now();
 
   Product({
     this.id,
@@ -30,10 +30,10 @@ class Product {
     this.inStock,
     active,
     deleted,
-    createdDate
+    // createdDate = DateTime.now().toString()
   }) {
     this.active = active == 1;
     this.deleted = deleted == 1;
-    this.createdDate = DateTime.tryParse(createdDate);
+    // this.createdDate = DateTime.tryParse(createdDate);
   }
 }

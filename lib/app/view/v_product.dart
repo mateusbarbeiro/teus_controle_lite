@@ -25,6 +25,17 @@ class VProduct extends StatelessWidget {
     );  
   }
 
+  ImageProvider<Object> handleProductImage(Product product) {
+    if (
+      product.thumbnail == null ||
+      !Uri.tryParse(product.thumbnail ?? "")!.isAbsolute
+    ) {
+      return AssetImage('lib/app/assets/basketImage.jpg');
+    } else {
+      return NetworkImage(product.thumbnail ?? '');
+    }
+  }
+
   Hero listCard(BuildContext context, Product product) {
     return Hero(
       tag: "card${product.id}",
@@ -36,7 +47,14 @@ class VProduct extends StatelessWidget {
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 485.0 / 384.0,
-                  child: Image.network(product.thumbnail!, height: 250)
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: handleProductImage(product),
+                        fit: BoxFit.cover,
+                      )
+                    ),
+                  ),
                 ),
                 ListTile(
                   title: Text( "R\$" + product.price!.toStringAsFixed(2), style: TextStyle(fontSize: 25)),
@@ -57,7 +75,7 @@ class VProduct extends StatelessWidget {
                 child: InkWell(
                   onTap: () async {
                     await Future.delayed(Duration(milliseconds: 700));
-                    _store.goToForm(context, product);
+                    _store.goToDetails(context, product);
                   },
                 ),
               ),
@@ -114,35 +132,35 @@ class VProduct extends StatelessWidget {
             } else {
               var list = (f.data! as List<Product>);
               return ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    var product = list[index];
-                    return Center(
-                      child: Dismissible(
-                        child: listCard(context, product),
-                        key: UniqueKey(),
-                        onDismissed: (direction) {
-                          _store.remove(product.id ?? 0);
-                          ScaffoldMessenger.of(context)
-                            .showSnackBar(
-                              deleteSnackBar(
-                                context,
-                                product.id,
-                                product.gtin ?? ""
-                              )
-                            );
-                        },
-                        background: Container(
-                          color: Colors.red[400],
-                          child: Align( 
-                            alignment: Alignment(-0.9, 0), 
-                            child: Icon(Icons.delete, color: Colors.white, size: 50,),
-                          ),
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  var product = list[index];
+                  return Center(
+                    child: Dismissible(
+                      child: listCard(context, product),
+                      key: Key(product.id.toString()),
+                      onDismissed: (direction) {
+                        _store.remove(product.id ?? 0);
+                        ScaffoldMessenger.of(context)
+                          .showSnackBar(
+                            deleteSnackBar(
+                              context,
+                              product.id,
+                              product.gtin ?? ""
+                            )
+                          );
+                      },
+                      background: Container(
+                        color: Colors.red[400],
+                        child: Align( 
+                          alignment: Alignment(-0.9, 0), 
+                          child: Icon(Icons.delete, color: Colors.white, size: 50,),
                         ),
-                        direction: DismissDirection.startToEnd,
-                      )
-                    );
-                  }
+                      ),
+                      direction: DismissDirection.startToEnd,
+                    )
+                  );
+                }
               );
             } 
           },
