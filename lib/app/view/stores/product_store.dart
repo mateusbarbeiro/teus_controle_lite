@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:teus_controle_lite/app/animation/slow_material_page_route.dart';
-import 'package:teus_controle_lite/app/domain/dto/product_dto.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 import 'package:teus_controle_lite/app/domain/interfaces/i_product_service.dart';
 import 'package:teus_controle_lite/app/my_app.dart';
-
-import '../v_product_form.dart';
 
 part 'product_store.g.dart';
 
@@ -29,7 +25,7 @@ abstract class _ProductStore with Store {
     refreshList();
   }
 
-  save(ProductDto product) {
+  save(Product product) {
     _service.save(product);
 
     refreshList();
@@ -37,29 +33,25 @@ abstract class _ProductStore with Store {
 
   goToForm(BuildContext context, [Product? product]) {
     if (product == null) {
-      Navigator.push(
-        context,
-        SlowMaterialPageRoute(
-          builder: (context) {
-            return VProductForm();
-          },
-          fullscreenDialog: true,
-        )
-      );
+      Navigator.of(context)
+        .pushNamed(MyApp.PRODUCTSFORM)
+        .then(refreshList);
     } else {
-      Navigator.push(
-        context,
-        SlowMaterialPageRoute(
-          builder: (context) {
-            return VProductForm();
-          },
-          fullscreenDialog: true,
-          settings: RouteSettings(
-            arguments: product
-          )
+      Navigator.of(context)
+        .pushNamed(
+          MyApp.PRODUCTSFORM,
+          arguments: product
         )
-      );
+        .then(refreshList);
     }
+  }
+
+  goToDetails(BuildContext context, Product product) {
+    Navigator.of(context)
+      .pushNamed(
+        MyApp.PRODUCTSDETAILS,
+        arguments: product
+      );
   }
 
   remove(int id) {

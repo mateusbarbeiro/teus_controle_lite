@@ -2,11 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:teus_controle_lite/app/animation/slow_material_page_route.dart';
-import 'package:teus_controle_lite/app/domain/dto/product_dto.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 import 'package:teus_controle_lite/app/view/stores/product_store.dart';
-import 'package:teus_controle_lite/app/view/v_product_form.dart';
 
 class VProduct extends StatelessWidget {
   final _store = ProductStore();
@@ -23,24 +20,20 @@ class VProduct extends StatelessWidget {
     return IconButton(
       onPressed: () {
         _store.goToForm(context);
-        // _store.save(
-        //   ProductDto(
-        //     gtin: '7896544900264',
-        //     description: 'FITA MISSNER BEGE MICROPORE 2,5X4,5 BEGE',
-        //     price: 4.99,
-        //     brandName: 'MISSNER',
-        //     gpcCode: '',
-        //     gpcDescription: '',
-        //     ncmCode: '30051090',
-        //     ncmDescription: 'Outros',
-        //     ncmFullDescription: 'Produtos farmacêuticos - Pastas (“ouates”), gazes, ataduras e artigos análogos (por exemplo, pensos, esparadrapos, sinapismos), impregnados ou recobertos de substâncias farmacêuticas ou acondicionados para venda a retalho para usos medicinais, cirúrgicos, dentários ou veterinários - Pensos adesivos e outros artigos com uma camada adesiva - Outros',
-        //     thumbnail: 'https://cdn-cosmos.bluesoft.com.br/products/7896544900264',
-        //     inStock: 5
-        //   )
-        // );
       },
       icon: Icon(Icons.add)
     );  
+  }
+
+  ImageProvider<Object> handleProductImage(Product product) {
+    if (
+      product.thumbnail == null ||
+      !Uri.tryParse(product.thumbnail ?? "")!.isAbsolute
+    ) {
+      return AssetImage('lib/app/assets/basketImage.jpg');
+    } else {
+      return NetworkImage(product.thumbnail ?? '');
+    }
   }
 
   Hero listCard(BuildContext context, Product product) {
@@ -54,7 +47,14 @@ class VProduct extends StatelessWidget {
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 485.0 / 384.0,
-                  child: Image.network(product.thumbnail!, height: 250)
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: handleProductImage(product),
+                        fit: BoxFit.cover,
+                      )
+                    ),
+                  ),
                 ),
                 ListTile(
                   title: Text( "R\$" + product.price!.toStringAsFixed(2), style: TextStyle(fontSize: 25)),
@@ -75,7 +75,7 @@ class VProduct extends StatelessWidget {
                 child: InkWell(
                   onTap: () async {
                     await Future.delayed(Duration(milliseconds: 700));
-                    _store.goToForm(context, product);
+                    _store.goToDetails(context, product);
                   },
                 ),
               ),
@@ -132,35 +132,35 @@ class VProduct extends StatelessWidget {
             } else {
               var list = (f.data! as List<Product>);
               return ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    var product = list[index];
-                    return Center(
-                      child: Dismissible(
-                        child: listCard(context, product),
-                        key: UniqueKey(),
-                        onDismissed: (direction) {
-                          _store.remove(product.id ?? 0);
-                          ScaffoldMessenger.of(context)
-                            .showSnackBar(
-                              deleteSnackBar(
-                                context,
-                                product.id,
-                                product.gtin ?? ""
-                              )
-                            );
-                        },
-                        background: Container(
-                          color: Colors.red[400],
-                          child: Align( 
-                            alignment: Alignment(-0.9, 0), 
-                            child: Icon(Icons.delete, color: Colors.white, size: 50,),
-                          ),
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  var product = list[index];
+                  return Center(
+                    child: Dismissible(
+                      child: listCard(context, product),
+                      key: Key(product.id.toString()),
+                      onDismissed: (direction) {
+                        _store.remove(product.id ?? 0);
+                        ScaffoldMessenger.of(context)
+                          .showSnackBar(
+                            deleteSnackBar(
+                              context,
+                              product.id,
+                              product.gtin ?? ""
+                            )
+                          );
+                      },
+                      background: Container(
+                        color: Colors.red[400],
+                        child: Align( 
+                          alignment: Alignment(-0.9, 0), 
+                          child: Icon(Icons.delete, color: Colors.white, size: 50,),
                         ),
-                        direction: DismissDirection.startToEnd,
-                      )
-                    );
-                  }
+                      ),
+                      direction: DismissDirection.startToEnd,
+                    )
+                  );
+                }
               );
             } 
           },

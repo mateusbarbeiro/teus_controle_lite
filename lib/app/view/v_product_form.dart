@@ -2,10 +2,11 @@ import 'dart:ui';
 
 import 'package:background_app_bar/background_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:teus_controle_lite/app/view/stores/product_form_store.dart';
 
 class VProductForm extends StatelessWidget {
+  final _form = GlobalKey<FormState>();
+
   Widget fieldGtin(ProductFormStore store) {
     return TextFormField(
       initialValue: store.product?.gtin ?? "",
@@ -13,6 +14,8 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Código de barras',
       ),
+      validator: store.validateGtin,
+      onSaved: (newValue) => store.product?.gtin = newValue
     );
   }
 
@@ -22,6 +25,8 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Descrição',
       ),
+      validator: store.validateDescription,
+      onSaved: (newValue) => store.product?.description = newValue,
     );
   }
 
@@ -32,6 +37,7 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Preço',
       ),
+      onSaved: (newValue) => store.product?.price = double.parse(newValue!)
     );
   }
 
@@ -41,6 +47,7 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Marca',
       ),
+      onSaved: (newValue) => store.product?.brandName = newValue
     );
   }
 
@@ -51,6 +58,7 @@ class VProductForm extends StatelessWidget {
         labelText: 'Codigo da GPC',
         hintText: 'Codigo da Classificação do Produto'
       ),
+      onSaved: (newValue) => store.product?.gpcCode = newValue
     );
   }
 
@@ -61,6 +69,7 @@ class VProductForm extends StatelessWidget {
         labelText: 'Descrição da GPC',
         hintText: 'Descrição da Classificação do Produto'
       ),
+      onSaved: (newValue) => store.product?.gpcDescription = newValue
     );
   }
 
@@ -71,6 +80,7 @@ class VProductForm extends StatelessWidget {
         labelText: 'Código da NCM',
         hintText: 'Código da Nomenclatura Comum do Mercosul '
       ),
+      onSaved: (newValue) => store.product?.ncmCode = newValue
     );
   }
 
@@ -81,6 +91,7 @@ class VProductForm extends StatelessWidget {
         labelText: 'Descrição da NCM',
         hintText: 'Descrição da Nomenclatura Comum do Mercosul'
       ),
+      onSaved: (newValue) => store.product?.ncmDescription = newValue
     );
   }
 
@@ -91,6 +102,7 @@ class VProductForm extends StatelessWidget {
         labelText: 'Descrição completa da NCM',
         hintText: 'Descrição completa da Nomenclatura Comum do Mercosul'
       ),
+      onSaved: (newValue) => store.product?.ncmFullDescription = newValue
     );
   }
 
@@ -100,6 +112,7 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Imagem do Produto (URL)',
       ),
+      onSaved: (newValue) => store.product?.thumbnail = newValue
     );
   }
 
@@ -110,18 +123,8 @@ class VProductForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Quantidade em Estoque',
       ),
-    );
-  }
-
-  Widget fieldCreatedDate(ProductFormStore store) {
-    DateFormat formatter = DateFormat('dd-MM-yyyy');
-    return TextFormField(
-      initialValue: formatter.format(store.product?.createdDate ?? DateTime.now()),
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: 'Data de Criação',
-      ),
-      enabled: false
+      validator: store.validateStock,
+      onSaved: (newValue) => store.product?.inStock = int.parse(newValue!),
     );
   }
 
@@ -145,6 +148,7 @@ class VProductForm extends StatelessWidget {
         body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
             SliverAppBar(
+              key: Key(_store.product?.id.toString() ?? UniqueKey().toString()),
               shadowColor: Colors.black,
               expandedHeight: 250.0,
               floating: false,
@@ -152,6 +156,32 @@ class VProductForm extends StatelessWidget {
               snap: false,
               elevation: 0.0,
               backgroundColor: Colors.transparent,
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.save),
+                  onPressed: () {
+                    _form.currentState?.validate();
+                    _form.currentState?.save();
+                    if (_store.isValid) {
+                      try {
+                        _store.save();
+                        Navigator.pop(context);
+                      } catch (e) {
+                        SnackBar(
+                          content: Text(
+                            'Erro $e!',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold
+                            ),
+                          )
+                        );
+                      }
+                    }
+                  },
+                )
+              ],
               flexibleSpace: BackgroundFlexibleSpaceBar(
                 centerTitle: false,
                 titlePadding: const EdgeInsets.only(
@@ -190,6 +220,7 @@ class VProductForm extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: SingleChildScrollView (
               child: Form(
+                key: _form,
                 child: Column(
                   mainAxisSize : MainAxisSize.min,
                   children: [
@@ -203,8 +234,7 @@ class VProductForm extends StatelessWidget {
                     fieldNcmDescription(_store),
                     fieldNcmFullDescription(_store),
                     fieldThumbnail(_store),
-                    fieldInStock(_store),
-                    fieldCreatedDate(_store)
+                    fieldInStock(_store)
                   ],
                 )
               )
