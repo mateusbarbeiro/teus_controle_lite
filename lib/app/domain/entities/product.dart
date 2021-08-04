@@ -2,7 +2,7 @@ class Product {
   int? id;
   String? gtin = "";
   String? description = "";
-  double? price = 0;
+  double? price;
   String? brandName = "";
   String? gpcCode = "";
   String? gpcDescription = "";
@@ -10,7 +10,7 @@ class Product {
   String? ncmDescription = "";
   String? ncmFullDescription = "";
   String? thumbnail = "";
-  int? inStock = 1;
+  int? inStock;
   bool? active = true;
   bool? deleted = false;
   // DateTime? createdDate = DateTime.now();

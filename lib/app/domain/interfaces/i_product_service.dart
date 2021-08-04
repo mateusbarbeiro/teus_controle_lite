@@ -14,4 +14,6 @@ abstract class IProductService {
   validateGtin(String? gtin);
 
   validateStock(String? inStock);
+
+  Future<Product> findById(int id);
 }

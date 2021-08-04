@@ -51,7 +51,8 @@ abstract class _ProductStore with Store {
       .pushNamed(
         MyApp.PRODUCTSDETAILS,
         arguments: product
-      );
+      )
+      .then(refreshList);
   }
 
   remove(int id) {

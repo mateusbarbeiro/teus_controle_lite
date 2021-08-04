@@ -138,7 +138,7 @@ class VProduct extends StatelessWidget {
                   return Center(
                     child: Dismissible(
                       child: listCard(context, product),
-                      key: Key(product.id.toString()),
+                      key: UniqueKey(),
                       onDismissed: (direction) {
                         _store.remove(product.id ?? 0);
                         ScaffoldMessenger.of(context)

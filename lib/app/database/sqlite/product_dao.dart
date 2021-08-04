@@ -46,6 +46,30 @@ class ProductDao implements IProductDAO {
         );
     });
   }
+
+  Future<Product> findById(int id) async {
+    _db = await Connection.get();
+    var sql = 'SELECT * FROM products WHERE deleted = false AND id = ?;';
+    List<Map<String,dynamic>>? result = await _db?.rawQuery(sql, [id]);
+
+    var line = result!.first;
+    return Product(
+      id: line['id'],
+      gtin: line['gtin'],
+      description: line['description'],
+      price: line['price']+0.0,
+      brandName: line['brand_name'],
+      gpcCode: line['gpc_code'],
+      gpcDescription: line['gpc_description'],
+      ncmCode: line['ncm_code'], 
+      ncmDescription: line['ncm_description'],
+      ncmFullDescription: line['ncm_full_description'],
+      thumbnail: line['thumbnail'],
+      inStock: line['in_stock'],
+      active: line['active'], 
+      deleted: line['deleted'],
+    );
+  }
   
   @override
   save(Product product) async {
