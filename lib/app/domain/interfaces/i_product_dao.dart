@@ -8,4 +8,6 @@ abstract class IProductDAO {
   Future<List<Product>> find();
 
   undelete(int? id);
+
+  Future<Product> findById(int id);
 }

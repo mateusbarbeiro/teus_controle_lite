@@ -26,6 +26,10 @@ class ProductService implements IProductService {
     return _dao.find();
   }
 
+  Future<Product> findById(int id) {
+    return _dao.findById(id);
+  }
+
   validateDescription(String? description) {
     if (description == null || description == '') {
       throw new BusinessException('Descrição é obrigatório.');
