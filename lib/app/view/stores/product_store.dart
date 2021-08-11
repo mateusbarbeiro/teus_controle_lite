@@ -55,12 +55,12 @@ abstract class _ProductStore with Store {
       .then(refreshList);
   }
 
-  remove(int id) {
+  remove(dynamic id) {
     _service.remove(id);
     refreshList();
   }
 
-  undoRemove(int id) {
+  undoRemove(dynamic id) {
     _service.undoRemove(id);
     refreshList();
   }

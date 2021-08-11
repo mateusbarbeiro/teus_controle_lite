@@ -1,5 +1,5 @@
 class Product {
-  int? id;
+  dynamic id;
   String? gtin = "";
   String? description = "";
   double? price;

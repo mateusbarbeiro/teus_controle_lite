@@ -6,10 +6,8 @@ import 'package:teus_controle_lite/app/view/v_product_form.dart';
 // import 'package:teus_controle_lite/app/view/v_profile.dart';
 
 class MyApp extends StatelessWidget {
-  // static const HOME = '/';
   static const PRODUCTS = '/';
   static const PRODUCTSFORM = 'productsform';
-  // static const PROFILE = 'profile';
   static const PRODUCTSDETAILS = 'productdetails';
 
   @override
@@ -21,10 +19,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
       ),
       routes: {
-        // HOME: (context) => VHome(),
         PRODUCTS: (context) => VProduct(),
         PRODUCTSFORM: (context) => VProductForm(),
-        // PROFILE: (context) => VProfile(),
         PRODUCTSDETAILS: (context) => VProductDetails()
       },
     );

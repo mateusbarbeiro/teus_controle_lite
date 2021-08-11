@@ -8,13 +8,13 @@ class ProductDao implements IProductDAO {
   Database? _db;
 
   @override
-  delete(int? id) async {
+  delete(dynamic id) async {
     _db = await Connection.get();
     var sql = 'UPDATE products SET deleted = true WHERE id = ?';
     _db?.rawUpdate(sql, [id]);
   }
   
-  undelete(int? id) async {
+  undelete(dynamic id) async {
     _db = await Connection.get();
     var sql = 'UPDATE products SET deleted = false WHERE id = ?';
     _db?.rawUpdate(sql, [id]);
@@ -47,7 +47,7 @@ class ProductDao implements IProductDAO {
     });
   }
 
-  Future<Product> findById(int id) async {
+  Future<Product> findById(dynamic id) async {
     _db = await Connection.get();
     var sql = 'SELECT * FROM products WHERE deleted = false AND id = ?;';
     List<Map<String,dynamic>>? result = await _db?.rawQuery(sql, [id]);

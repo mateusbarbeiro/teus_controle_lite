@@ -14,11 +14,11 @@ class ProductService implements IProductService {
     _dao.save(product);
   }
 
-  remove(int id) {
+  remove(dynamic id) {
     _dao.delete(id);
   }
 
-  undoRemove(int id) {
+  undoRemove(dynamic id) {
     _dao.undelete(id);
   }
 
@@ -26,7 +26,7 @@ class ProductService implements IProductService {
     return _dao.find();
   }
 
-  Future<Product> findById(int id) {
+  Future<Product> findById(dynamic id) {
     return _dao.findById(id);
   }
 

@@ -3,11 +3,11 @@ import 'package:teus_controle_lite/app/domain/entities/product.dart';
 abstract class IProductService {
   save(Product product);
 
-  remove(int id);
+  remove(dynamic id);
 
   Future<List<Product>> find();
 
-  undoRemove(int id);
+  undoRemove(dynamic id);
 
   validateDescription(String? description);
 
@@ -15,5 +15,5 @@ abstract class IProductService {
 
   validateStock(String? inStock);
 
-  Future<Product> findById(int id);
+  Future<Product> findById(dynamic id);
 }

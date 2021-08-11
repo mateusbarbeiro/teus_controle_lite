@@ -86,7 +86,7 @@ class VProduct extends StatelessWidget {
     );
   }
 
-  SnackBar deleteSnackBar(BuildContext context, int? id, String gtin) {
+  SnackBar deleteSnackBar(BuildContext context, dynamic id, String gtin) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
 
@@ -120,8 +120,7 @@ class VProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Produtos'),
-        actions: [onAdd(context)],
+        title: Text('Produtos')
       ),
       body: Observer(
         builder: (context) => FutureBuilder(
@@ -165,6 +164,11 @@ class VProduct extends StatelessWidget {
             } 
           },
         )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _store.goToForm(context),
+        child: Icon(Icons.add),
+        backgroundColor: Colors.red,
       )
     );
   }
