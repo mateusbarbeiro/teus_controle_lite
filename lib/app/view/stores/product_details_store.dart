@@ -7,9 +7,12 @@ import 'package:teus_controle_lite/app/domain/interfaces/i_product_service.dart'
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../my_app.dart';
+
 part 'product_details_store.g.dart';
 
 class ProductDetailsStore = _ProductDetailsStore with _$ProductDetailsStore;
+
+// flutter packages pub run build_runner watch
 abstract class _ProductDetailsStore with Store{
   BuildContext context;
   @observable

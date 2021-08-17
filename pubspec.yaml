@@ -16,11 +16,11 @@ dependencies:
   flutter_mobx:
   background_app_bar:
   intl:
-  image_picker:
   url_launcher:
   cloud_firestore:
   firebase_core:
   cupertino_icons: ^1.0.2
+  http:
 
 dev_dependencies:
   flutter_test:

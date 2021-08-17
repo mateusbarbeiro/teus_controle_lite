@@ -1,24 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobx/mobx.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 import 'package:teus_controle_lite/app/domain/interfaces/i_product_service.dart';
 
-part 'product_form_store.g.dart';
-
-class ProductFormStore = _ProductFormStore with _$ProductFormStore;
-
 // flutter packages pub run build_runner watch
-abstract class _ProductFormStore with Store {
+class ProductFormStore {
   Product? product;
   bool? _descriptionIsValid;
   bool? _gtinIsValid;
   bool? _inStockIsValid;
   var _service = GetIt.I.get<IProductService>();
 
-  bool get isValid => (_descriptionIsValid ?? false) && (_gtinIsValid ?? false) && (_inStockIsValid ?? false);
+  bool get isValid =>
+      (_descriptionIsValid ?? false) &&
+      (_gtinIsValid ?? false) &&
+      (_inStockIsValid ?? false);
 
-  _ProductFormStore(BuildContext context) {
+  ProductFormStore(BuildContext context) {
     var parameter = ModalRoute.of(context)!.settings.arguments;
     product = (parameter == null) ? Product() : (parameter) as Product?;
   }

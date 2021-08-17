@@ -44,23 +44,25 @@ class VProduct extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 485.0 / 384.0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: handleProductImage(product),
-                        fit: BoxFit.cover,
-                      )
-                    ),
-                  ),
-                ),
                 ListTile(
-                  title: Text( "R\$" + product.price!.toStringAsFixed(2), style: TextStyle(fontSize: 25)),
-                  subtitle: Text(
-                    product.description ?? "",
-                    style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: 17),
+                  leading: Image(
+                    image: handleProductImage(product),alignment: Alignment.topCenter,
+                    width: 60,
+                    fit: BoxFit.scaleDown,
+                  ),
+                  title: Text(
+                    "R\$" + product.price!.toStringAsFixed(2), 
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)
+                  ),
+                  subtitle: RichText(
+                    overflow: TextOverflow.ellipsis,
+                    strutStyle: StrutStyle(fontSize: 12.0),
+                    text: TextSpan(
+                      text: product.description ?? "",
+                      style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: 15),
+                    ),
                   ),
                 ),
               ]
@@ -120,7 +122,10 @@ class VProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Produtos')
+        title: Text(
+          'Produtos',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        )
       ),
       body: Observer(
         builder: (context) => FutureBuilder(

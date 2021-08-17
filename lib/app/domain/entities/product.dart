@@ -13,7 +13,6 @@ class Product {
   int? inStock;
   bool? active = true;
   bool? deleted = false;
-  // DateTime? createdDate = DateTime.now();
 
   Product({
     this.id,
@@ -34,6 +33,5 @@ class Product {
   }) {
     this.active = active == 1;
     this.deleted = deleted == 1;
-    // this.createdDate = DateTime.tryParse(createdDate);
   }
 }
