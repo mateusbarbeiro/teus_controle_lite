@@ -5,19 +5,24 @@ import 'package:teus_controle_lite/app/domain/interfaces/i_product_dao.dart';
 import 'connection.dart';
 
 class ProductDao implements IProductDAO {
+  final List<String> result = ['Operação executada com sucesso'];
   Database? _db;
 
   @override
-  delete(dynamic id) async {
+  Future<List<String>> delete(dynamic id) async {
     _db = await Connection.get();
     var sql = 'UPDATE products SET deleted = true WHERE id = ?';
     _db?.rawUpdate(sql, [id]);
+
+    return result;
   }
   
-  undelete(dynamic id) async {
+  Future<List<String>> undelete(dynamic id) async {
     _db = await Connection.get();
     var sql = 'UPDATE products SET deleted = false WHERE id = ?';
     _db?.rawUpdate(sql, [id]);
+
+    return result;
   }
   
   @override
@@ -72,7 +77,7 @@ class ProductDao implements IProductDAO {
   }
   
   @override
-  save(Product product) async {
+  Future<List<String>> save(Product product) async {
     _db = await Connection.get();
     var sql;
     if (product.id == null) {
@@ -82,6 +87,6 @@ class ProductDao implements IProductDAO {
       sql = 'UPDATE products SET gtin = ?, description = ?, price = ?, brand_name = ?, gpc_code = ?, gpc_description = ?, ncm_code = ?, ncm_description = ?, ncm_full_description = ?, thumbnail = ?, in_stock = ? WHERE id = ?';
       _db?.rawUpdate(sql, [product.gtin, product.description, product.price, product.brandName, product.gpcCode, product.gpcDescription, product.ncmCode, product.ncmDescription, product.ncmFullDescription, product.thumbnail, product.inStock, product.id]);
     }
+    return result;
   }
-
 }

@@ -21,7 +21,7 @@ class ProductFormStore {
     product = (parameter == null) ? Product() : (parameter) as Product?;
   }
 
-  save() async {
+  Future save() async {
     await _service.save(product!);
   }
 

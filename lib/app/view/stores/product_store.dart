@@ -25,8 +25,8 @@ abstract class _ProductStore with Store {
     refreshList();
   }
 
-  save(Product product) {
-    _service.save(product);
+  save(Product product) async {
+    await _service.save(product);
 
     refreshList();
   }
@@ -46,7 +46,7 @@ abstract class _ProductStore with Store {
     }
   }
 
-  goToDetails(BuildContext context, Product product) {
+  goToDetails(BuildContext context, dynamic product) {
     Navigator.of(context)
       .pushNamed(
         MyApp.PRODUCTSDETAILS,
@@ -55,13 +55,13 @@ abstract class _ProductStore with Store {
       .then(refreshList);
   }
 
-  remove(dynamic id) {
-    _service.remove(id);
+  remove(dynamic id) async {
+    await _service.remove(id);
     refreshList();
   }
 
-  undoRemove(dynamic id) {
-    _service.undoRemove(id);
+  undoRemove(dynamic id) async {
+    await _service.undoRemove(id);
     refreshList();
   }
 }

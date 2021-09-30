@@ -31,7 +31,7 @@ class _VProductFormState extends State<VProductForm> {
   final _thumbnailController = TextEditingController();
 
   String _treatPriceString(String? value) {
-    // formato esteprado "R$ 2,99",
+    // formato esperado "R$ 2,99",
     if (value == null || value == '')
       return '0';
     else {
@@ -105,7 +105,8 @@ class _VProductFormState extends State<VProductForm> {
   }
 
   Widget fieldPrice(ProductFormStore store) {
-    _priceController.text = store.product?.price == null ? '' : store.product!.price.toString();
+    _priceController.text =
+        store.product?.price == null ? '' : store.product!.price.toString();
     return TextFormField(
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
@@ -203,35 +204,40 @@ class _VProductFormState extends State<VProductForm> {
   @override
   Widget build(BuildContext context) {
     var _store = ProductFormStore(context);
-    _store.product?.description  = _store.product?.description ?? description ;
-    _store.product?.price = _store.product?.price == null ? price : _store.product?.price;
+    _store.product?.description = _store.product?.description ?? description;
+    _store.product?.price =
+        _store.product?.price == null ? price : _store.product?.price;
     _store.product?.brandName = _store.product?.brandName ?? brandName;
     _store.product?.gpcCode = _store.product?.gpcCode ?? gpcCode;
-    _store.product?.gpcDescription = _store.product?.gpcDescription ?? gpcDescription;
+    _store.product?.gpcDescription =
+        _store.product?.gpcDescription ?? gpcDescription;
     _store.product?.ncmCode = _store.product?.ncmCode ?? ncmCode;
-    _store.product?.ncmDescription = _store.product?.ncmDescription ?? ncmDescription;
-    _store.product?.ncmFullDescription = _store.product?.ncmFullDescription ?? ncmFullDescription;
-    _store.product?.thumbnail  = _store.product?.thumbnail ?? thumbnail;
+    _store.product?.ncmDescription =
+        _store.product?.ncmDescription ?? ncmDescription;
+    _store.product?.ncmFullDescription =
+        _store.product?.ncmFullDescription ?? ncmFullDescription;
+    _store.product?.thumbnail = _store.product?.thumbnail ?? thumbnail;
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Cadastro de Contato'
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  _form.currentState?.validate();
-                  _form.currentState?.save();
-                  if (_store.isValid) {
-                    _store.save();
-                    Navigator.of(context).pop();
-                  }
-                },
-                icon: Icon(Icons.save))
-          ],
-        ),
-        body: ListView(padding: EdgeInsets.all(10), children: [
+      appBar: AppBar(
+        title: Text('Cadastro de Contato'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              _form.currentState?.validate();
+              _form.currentState?.save();
+              if (_store.isValid) {
+                await _store.save();
+                Navigator.of(context).pop();
+              }
+            },
+            icon: Icon(Icons.save),
+          )
+        ],
+      ),
+      body: ListView(
+        padding: EdgeInsets.all(10),
+        children: [
           Form(
             key: _form,
             child: Column(
@@ -250,6 +256,8 @@ class _VProductFormState extends State<VProductForm> {
               ],
             ),
           ),
-        ]));
+        ],
+      ),
+    );
   }
 }

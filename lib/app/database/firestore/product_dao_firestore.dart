@@ -3,6 +3,7 @@ import 'package:teus_controle_lite/app/database/sqlite/product_dao.dart';
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 
 class ProductDaoFirestore implements ProductDao {
+  final List<String> result = ['Operação executada com sucesso'];
   CollectionReference? productCollection;
 
   ProductDaoFirestore() {
@@ -10,8 +11,10 @@ class ProductDaoFirestore implements ProductDao {
   }
 
   @override
-  delete(dynamic id) async {
+  Future<List<String>> delete(dynamic id) async {
     await productCollection!.doc(id).update({'deleted': true});
+    
+    return result;
   }
 
   @override
@@ -65,8 +68,8 @@ class ProductDaoFirestore implements ProductDao {
   }
 
   @override
-  save(Product product) {
-    productCollection!.doc(product.id).set({
+  Future<List<String>> save(Product product) async {
+    await productCollection!.doc(product.id).set({
       'description': product.description,
       'gtin': product.gtin,
       'price': product.price,
@@ -81,10 +84,13 @@ class ProductDaoFirestore implements ProductDao {
       'active': product.active,
       'deleted': product.deleted
     });
+
+    return result;
   }
 
   @override
-  undelete(dynamic id) async {
+  Future<List<String>> undelete(dynamic id) async {
     await productCollection!.doc(id).update({'deleted': false});
+    return result;
   }
 }

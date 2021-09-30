@@ -10,26 +10,20 @@ class VProduct extends StatelessWidget {
 
   Widget iconEditButton(VoidCallback onPressed) {
     return IconButton(
-      onPressed: onPressed,
-      icon: Icon(Icons.edit),
-      color: Colors.orange
-    );
+        onPressed: onPressed, icon: Icon(Icons.edit), color: Colors.orange);
   }
 
   IconButton onAdd(BuildContext context) {
     return IconButton(
-      onPressed: () {
-        _store.goToForm(context);
-      },
-      icon: Icon(Icons.add)
-    );  
+        onPressed: () {
+          _store.goToForm(context);
+        },
+        icon: Icon(Icons.add));
   }
 
   ImageProvider<Object> handleProductImage(Product product) {
-    if (
-      product.thumbnail == null ||
-      !Uri.tryParse(product.thumbnail ?? "")!.isAbsolute
-    ) {
+    if (product.thumbnail == null ||
+        !Uri.tryParse(product.thumbnail ?? "")!.isAbsolute) {
       return AssetImage('lib/app/assets/basketImage.jpg');
     } else {
       return NetworkImage(product.thumbnail ?? '');
@@ -38,35 +32,38 @@ class VProduct extends StatelessWidget {
 
   Hero listCard(BuildContext context, Product product) {
     return Hero(
-      tag: "card${product.id}",
-      child: Card(
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: Stack(
-          children: <Widget>[
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ListTile(
-                  leading: Image(
-                    image: handleProductImage(product),alignment: Alignment.topCenter,
-                    width: 60,
-                    fit: BoxFit.scaleDown,
+        tag: "card${product.id}",
+        child: Card(
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: Stack(children: <Widget>[
+            Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              ListTile(
+                leading: Image(
+                  image: handleProductImage(product),
+                  alignment: Alignment.topCenter,
+                  width: 60,
+                  fit: BoxFit.scaleDown,
+                ),
+                title: Text(
+                  "R\$" + product.price!.toStringAsFixed(2),
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
                   ),
-                  title: Text(
-                    "R\$" + product.price!.toStringAsFixed(2), 
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)
-                  ),
-                  subtitle: RichText(
-                    overflow: TextOverflow.ellipsis,
-                    strutStyle: StrutStyle(fontSize: 12.0),
-                    text: TextSpan(
-                      text: product.description ?? "",
-                      style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: 15),
+                ),
+                subtitle: RichText(
+                  overflow: TextOverflow.ellipsis,
+                  strutStyle: StrutStyle(fontSize: 12.0),
+                  text: TextSpan(
+                    text: product.description ?? "",
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.6),
+                      fontSize: 15,
                     ),
                   ),
                 ),
-              ]
-            ),
+              ),
+            ]),
             Positioned(
               left: 0.0,
               top: 0.0,
@@ -77,15 +74,13 @@ class VProduct extends StatelessWidget {
                 child: InkWell(
                   onTap: () async {
                     await Future.delayed(Duration(milliseconds: 700));
-                    _store.goToDetails(context, product);
+                    _store.goToDetails(context, product.id);
                   },
                 ),
               ),
             )
-          ]
-        ),
-      )
-    );
+          ]),
+        ));
   }
 
   SnackBar deleteSnackBar(BuildContext context, dynamic id, String gtin) {
@@ -96,10 +91,7 @@ class VProduct extends StatelessWidget {
       content: Text(
         '$gtin deletado!',
         style: TextStyle(
-          color: Colors.black,
-          fontSize: 15,
-          fontWeight: FontWeight.bold
-        ),
+            color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
       ),
       action: SnackBarAction(
         label: 'Desfazer',
@@ -125,7 +117,7 @@ class VProduct extends StatelessWidget {
         title: Text(
           'Produtos',
           style: TextStyle(fontWeight: FontWeight.bold),
-        )
+        ),
       ),
       body: Observer(
         builder: (context) => FutureBuilder(
@@ -145,36 +137,42 @@ class VProduct extends StatelessWidget {
                       key: UniqueKey(),
                       onDismissed: (direction) {
                         _store.remove(product.id ?? 0);
-                        ScaffoldMessenger.of(context)
-                          .showSnackBar(
-                            deleteSnackBar(
-                              context,
-                              product.id,
-                              product.gtin ?? ""
-                            )
-                          );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          deleteSnackBar(
+                            context,
+                            product.id,
+                            product.gtin ?? "",
+                          ),
+                        );
                       },
                       background: Container(
                         color: Colors.red[400],
-                        child: Align( 
-                          alignment: Alignment(-0.9, 0), 
-                          child: Icon(Icons.delete, color: Colors.white, size: 50,),
+                        child: Align(
+                          alignment: Alignment(
+                            -0.9,
+                            0,
+                          ),
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                            size: 50,
+                          ),
                         ),
                       ),
                       direction: DismissDirection.startToEnd,
-                    )
+                    ),
                   );
-                }
+                },
               );
-            } 
+            }
           },
-        )
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _store.goToForm(context),
         child: Icon(Icons.add),
         backgroundColor: Colors.red,
-      )
+      ),
     );
   }
 }
