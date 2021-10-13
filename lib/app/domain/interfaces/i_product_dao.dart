@@ -1,13 +1,13 @@
 import 'package:teus_controle_lite/app/domain/entities/product.dart';
 
 abstract class IProductDAO {
-  save(Product product);
+  Future<List<String>> save(Product product);
 
-  delete(int id);
+  Future<List<String>> delete(dynamic id);
 
   Future<List<Product>> find();
 
-  undelete(int? id);
+  Future<List<String>> undelete(dynamic id);
 
-  Future<Product> findById(int id);
+  Future<Product> findById(dynamic id);
 }

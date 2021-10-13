@@ -7,31 +7,45 @@ import 'package:teus_controle_lite/app/domain/interfaces/i_product_service.dart'
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../my_app.dart';
+
 part 'product_details_store.g.dart';
 
 class ProductDetailsStore = _ProductDetailsStore with _$ProductDetailsStore;
+
+// flutter packages pub run build_runner watch
 abstract class _ProductDetailsStore with Store{
   BuildContext context;
+  late dynamic productId;
   @observable
-  Product? product;
+  Future<Product>? product;
   var _service = GetIt.I.get<IProductService>();
 
-  _ProductDetailsStore(this.context) {
-    product = ModalRoute.of(context)?.settings.arguments as Product?;
+  @action
+  refreshItem([dynamic value]) {
+    product = _service.findById(productId);
   }
 
-  @action
-  refreshList([dynamic value]) async{
-    await _service.findById(product?.id ?? 1).then((value) => product = value);
+  _ProductDetailsStore(this.context) {
+    productId = ModalRoute.of(context)?.settings.arguments;
+    refreshItem();
   }
+
+  // Future fetchItem() async {
+  //   var result = await _service.findById(productId);
+  //   refreshItem(result);
+  // }
+
+  // @action
+  // refreshItem(Product value) async {
+  //   product = value;
+  // }
 
   goToForm(Product? product) {
     Navigator.of(context)
       .pushNamed(
         MyApp.PRODUCTSFORM,
         arguments: product
-      )
-      .then(refreshList);
+      ).then((value) => refreshItem());
   }
 
   launchApp(String url) async {

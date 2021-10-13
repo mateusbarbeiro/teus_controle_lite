@@ -7,26 +7,26 @@ import 'package:teus_controle_lite/app/domain/interfaces/i_product_service.dart'
 class ProductService implements IProductService {
   var _dao = GetIt.I.get<IProductDAO>();
 
-  save(Product product) {
+  Future save(Product product) async {
     validateGtin(product.gtin);
     validateDescription(product.description);
     validateStock(product.inStock.toString());
-    _dao.save(product);
+    await _dao.save(product);
   }
 
-  remove(int id) {
-    _dao.delete(id);
+  Future remove(dynamic id) async {
+    await _dao.delete(id);
   }
 
-  undoRemove(int id) {
-    _dao.undelete(id);
+  Future undoRemove(dynamic id) async {
+    await _dao.undelete(id);
   }
 
   Future<List<Product>> find() {
     return _dao.find();
   }
 
-  Future<Product> findById(int id) {
+  Future<Product> findById(dynamic id) {
     return _dao.findById(id);
   }
 
